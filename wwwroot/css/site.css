@@ -1,0 +1,65 @@
+
+* {
+    margin:0px;
+}
+
+.scopeLogo {
+    position: absolute;
+    left: 49%;
+}
+.menuBar {
+    position: absolute;
+    right:5px;
+}
+.navbar {
+    height: 100px;
+    background-color: #071E67;
+}
+.background1 {
+    width:1092px;
+    overflow:hidden;
+}
+body {
+    background-image: url('../Images/slider_bg.jpg');
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-size: auto; /* Makes the image cover the entire element */
+    background-position: center; /* Centers the image within the element */
+}
+.abtH1 {
+    color: #fbba02;
+    font: 55px Viga;
+    margin: 0px 0px 15px;
+    font-size: 55px;
+    line-height: 65px;
+    font-weight: 500;
+    letter-spacing: 0px;
+}
+.abtH2 {
+    color: #ffffff;
+    font: 34px Viga;
+    margin: 0px 0px 15px;
+}
+.abtP1 {
+    color: #ffffff;
+    font: 15px Poppins,Arial,Tahoma,sans-serif;
+    margin: 0px 0px 15px;
+}
+.abtP2 {
+    color: #ffffff;
+    font: 15px Poppins,Arial,Tahoma,sans-serif;
+    margin: 0px 0px 15px;
+}
+.abtStar {
+    height:119px;
+    width:312px;
+}
+.navbar {
+height:60px;
+margin-bottom:0px;
+}
+@media (max-width:768px) {
+    .scopeLogo {
+        position:absolute;
+        left:5px;
+    }
+}
