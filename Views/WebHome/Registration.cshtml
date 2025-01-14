@@ -4,82 +4,82 @@
         <div class="container bg-success h-50 w-50">
             <form asp-controller="WebHome" asp-action="Contact" method="post">
                 <fieldset>
-                    <legend>Contact JIJO</legend>
-                    <div class="form-floating mx-auto">
+                    <legend>Registration Form</legend>
+                    <div class="form-floating mx-auto ">
                         <input asp-for="FirstName" class="form-control col-6" id="FirstName" />
-                        <label asp-for="FirstName" class="form-label col-6">First Name</label>
+                        <label asp-for="FirstName" class="form-label">First Name</label>
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <br />
 
                     <div class="form-floating mx-auto">
                         <input asp-for="LastName" class="form-control col-6" id="LastName" />
-                        <label asp-for="LastName" class="form-label col-6">Last Name</label>
+                        <label asp-for="LastName" class="form-label">Last Name</label>
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <br />
 
-                    <div class="form-floating mx-auto">
-                        <input asp-for="Gender" class="form-control col-6" id="Gender" />
-                        <label asp-for="Gender" class="form-label col-6">Gender</label>
+                    <div class=" mx-auto">
+                       
+                        <label asp-for="Gender" >Gender</label>
                         <span asp-validation-for="Gender" class="text-danger"></span>
-                        <input type="radio" asp-for="Gender" id="Male">
+                        <input type="radio" asp-for="Gender" id="Male" value="male">
                         <label asp-for="Gender" class="form-label">Male</label>
-                        <input type="radio" asp-for="Gender" id="Female">
+                        <input type="radio" asp-for="Gender" id="Female" value="female">
                         <label asp-for="Gender" class="form-label">Female</label>
                     </div>
                     <br />
-
+                        
                     <div class="form-floating mx-auto">
                         <input asp-for="DOB" class="form-control col-6" id="DOB" />
-                        <label asp-for="DOB" class="form-label col-6">Date of Birth</label>
+                        <label asp-for="DOB" class="form-label ">Date of Birth</label>
                         <span asp-validation-for="DOB" class="text-danger"></span>
                     </div>
                     <br />
 
                     <div class="form-floating mx-auto">
                         <input asp-for="Email" class="form-control col-6" id="Email" />
-                        <label asp-for="Email" class="form-label col-6">E-mail</label>
+                        <label asp-for="Email" class="form-label">E-mail</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <br />
 
                     <div class="form-floating mx-auto">
                         <input asp-for="PhNo" class="form-control col-6" id="PhNo" />
-                        <label asp-for="PhNo" class="form-label col-6">Phone Number</label>
+                        <label asp-for="PhNo" class="form-label ">Phone Number</label>
                         <span asp-validation-for="PhNo" class="text-danger"></span>
                     </div>
                     <br />
 
                     <div class="form-floating mx-auto">
                         <input asp-for="Country" class="form-control col-6" id="Country" />
-                        <label asp-for="Country" class="form-label col-6">Country</label>
+                        <label asp-for="Country" class="form-label">Country</label>
                         <span asp-validation-for="Country" class="text-danger"></span>
                     </div>
                     <br />
 
                     <div class="form-floating mx-auto">
                         <input asp-for="State" class="form-control col-6" id="State" />
-                        <label asp-for="State" class="form-label col-6">State</label>
+                        <label asp-for="State" class="form-label">State</label>
                         <span asp-validation-for="State" class="text-danger"></span>
                     </div>
                     <br />
 
                     <div class="form-floating mx-auto">
                         <input asp-for="City" class="form-control col-6" id="City" />
-                        <label asp-for="City" class="form-label col-6">City</label>
+                        <label asp-for="City" class="form-label">City</label>
                         <span asp-validation-for="City" class="text-danger"></span>
                     </div>
                     <br />
 
                     <div class="form-floating mx-auto">
                         <input asp-for="Hobbies" class="form-control col-6" id="Hobbies" />
-                        <label asp-for="Hobbies" class="form-label col-6">Hobbies</label>
+                        <label asp-for="Hobbies" class="form-label ">Hobbies</label>
                         <span asp-validation-for="Hobbies" class="text-danger"></span>
                     </div>
                     <br />
 
-                    <button class="btn btn-outline-primary" type="submit" id="submit">
+                    <button class="btn btn-outline-primary btn-primary btn-lg " type="submit" id="submit">
                         Send Mail
                     </button>
                 </fieldset>
