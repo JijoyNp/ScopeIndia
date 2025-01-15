@@ -1,8 +1,8 @@
 ﻿@model ScopeIndia.Models.StudentModel
-<div class="text-center">
-    <div>
+<div >
+    <div class="text-center">
         <div class="container bg-success h-50 w-50">
-            <form asp-controller="WebHome" asp-action="Contact" method="post">
+            <form asp-controller="WebHome" asp-action="Registration" method="post">
                 <fieldset>
                     <legend>Registration Form</legend>
                     <div class="form-floating mx-auto ">
@@ -19,9 +19,9 @@
                     </div>
                     <br />
 
-                    <div class=" mx-auto">
+                    <div class="text-start">
                        
-                        <label asp-for="Gender" >Gender</label>
+                        <label asp-for="Gender" style="margin-left:0px;" class="fw-bold">Gender:</label><br>
                         <span asp-validation-for="Gender" class="text-danger"></span>
                         <input type="radio" asp-for="Gender" id="Male" value="male">
                         <label asp-for="Gender" class="form-label">Male</label>
@@ -51,35 +51,62 @@
                     </div>
                     <br />
 
-                    <div class="form-floating mx-auto">
-                        <input asp-for="Country" class="form-control col-6" id="Country" />
-                        <label asp-for="Country" class="form-label">Country</label>
+                    <div class="text-start fw-bold">
+                        <label asp-for="Country" class="">Country:</label>
+                        <select name="Country" id="Country" style="height:25px; width:160px;"></select> <br>              
                         <span asp-validation-for="Country" class="text-danger"></span>
                     </div>
                     <br />
 
-                    <div class="form-floating mx-auto">
-                        <input asp-for="State" class="form-control col-6" id="State" />
-                        <label asp-for="State" class="form-label">State</label>
+                    <div class="text-start fw-bold">
+                        <label asp-for="State" class="form-label">State:</label>
+                        <select name="State" id="State" style="height:25px; width:160px; margin-left:23px;"></select> <br>
                         <span asp-validation-for="State" class="text-danger"></span>
                     </div>
                     <br />
 
-                    <div class="form-floating mx-auto">
-                        <input asp-for="City" class="form-control col-6" id="City" />
-                        <label asp-for="City" class="form-label">City</label>
+                    <div class="text-start fw-bold">
+                        <label asp-for="City" class="form-label">City:</label>
+                        <select name="City" id="City" style="height:25px; width:160px; margin-left:29px;"></select>
                         <span asp-validation-for="City" class="text-danger"></span>
                     </div>
                     <br />
 
-                    <div class="form-floating mx-auto">
-                        <input asp-for="Hobbies" class="form-control col-6" id="Hobbies" />
-                        <label asp-for="Hobbies" class="form-label ">Hobbies</label>
-                        <span asp-validation-for="Hobbies" class="text-danger"></span>
+                    <div class="text-start d-flex">
+                        <label asp-for="Hobbies" class="form-label fw-bold">Hobbies:&nbsp;&nbsp;</label><br/>
+                        <div>
+                            <div>
+                                <input type="checkbox" asp-for="Hobbies" id="sports" />
+                                <label asp-for="Hobbies" class="form-label ">Sports</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" asp-for="Hobbies" id="books" />
+                                <label asp-for="Hobbies" class="form-label ">Reading Books</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" asp-for="Hobbies" id="movies" />
+                                <label asp-for="Hobbies" class="form-label ">Watching Movies</label><br />
+                            </div>
+                        </div>
+                        &nbsp;&nbsp;
+                        <div>
+                            <div>
+                                <input type="checkbox" asp-for="Hobbies" id="Travel" />
+                                <label asp-for="Hobbies" class="form-label ">Traveling</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" asp-for="Hobbies" id="music" />
+                                <label asp-for="Hobbies" class="form-label">Listening to Music</label>
+                            </div>
+                            <div class="form-floating col-6">
+                                <textarea rows="1" cols="15" asp-for="Hobbies">Others</textarea>
+                                <span asp-validation-for="Hobbies" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
                     <br />
 
-                    <button class="btn btn-outline-primary btn-primary btn-lg " type="submit" id="submit">
+                    <button class="btn btn-outline-primary btn-primary btn-lg text-white" type="submit" id="submit">
                         Send Mail
                     </button>
                 </fieldset>
@@ -89,4 +116,6 @@
 </div>
 @section Scripts {
     @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
+
+   
 }

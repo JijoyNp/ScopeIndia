@@ -1,7 +1,11 @@
+using ScopeIndia.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Configuration.GetConnectionString("DBConnect");
+builder.Services.AddScoped<IStudent, StudentClass>();
 
 var app = builder.Build();
 

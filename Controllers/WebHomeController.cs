@@ -5,15 +5,18 @@ using MimeKit.Text;
 
 
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
+using ScopeIndia.Data;
 
 namespace ScopeIndia.Controllers
 {
     public class WebHomeController : Controller
     {
         private readonly IConfiguration _configuration;
-       public WebHomeController(IConfiguration configuration) 
+        private readonly IStudent _student;
+       public WebHomeController(IConfiguration configuration,IStudent student) 
        { 
             _configuration = configuration;
+            _student = student;
        }
         public IActionResult Home()
         {
@@ -30,22 +33,22 @@ namespace ScopeIndia.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Contact(ContactModel cfvm)
+        public IActionResult Contact(ContactModel cm)
         {
             if (!ModelState.IsValid)
             {
-                return View(cfvm);
+                return View(cm);
             }
 
             try
             {
                 var email = new MimeMessage();
-                email.From.Add(MailboxAddress.Parse(cfvm.UserEmail));
+                email.From.Add(MailboxAddress.Parse(cm.UserEmail));
                 email.To.Add(MailboxAddress.Parse("jijoynpnlr@gmail.com"));
-                email.Subject = $"Subject: {cfvm.Subject}";
+                email.Subject = $"Subject: {cm.Subject}";
                 email.Body = new TextPart(TextFormat.Plain)
                 {
-                    Text = $"From: {cfvm.UserEmail}\nSubject: {cfvm.Subject}\nBody: {cfvm.Message}"
+                    Text = $"From: {cm.UserEmail}\nSubject: {cm.Subject}\nBody: {cm.Message}"
                 };
 
                 
@@ -67,6 +70,16 @@ namespace ScopeIndia.Controllers
 
         public IActionResult Registration()
         {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Registration(StudentModel sm)
+        {
+            if (!ModelState.IsValid)
+                 return View(sm);
+            _student.Insert(sm);
             return View();
         }
     }
