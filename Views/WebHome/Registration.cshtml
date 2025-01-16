@@ -1,7 +1,7 @@
 ﻿@model ScopeIndia.Models.StudentModel
 <div >
-    <div class="text-center">
-        <div class="container bg-success h-50 w-50">
+    <div class="text-center mt-5">
+        <div class="container bg-success h-50 w-50  pb-3">
             <form asp-controller="WebHome" asp-action="Registration" method="post">
                 <fieldset>
                     <legend>Registration Form</legend>
@@ -21,17 +21,17 @@
 
                     <div class="text-start">
                        
-                        <label asp-for="Gender" style="margin-left:0px;" class="fw-bold">Gender:</label><br>
-                        <span asp-validation-for="Gender" class="text-danger"></span>
-                        <input type="radio" asp-for="Gender" id="Male" value="male">
-                        <label asp-for="Gender" class="form-label">Male</label>
+                        <label asp-for="Gender" class="fw-bold">Gender:</label>
+                        <input type="radio" asp-for="Gender" id="Male" value="male" class="form-check-input">
+                        <label asp-for="Gender" class="form-check-label">Male</label>
                         <input type="radio" asp-for="Gender" id="Female" value="female">
-                        <label asp-for="Gender" class="form-label">Female</label>
+                        <label asp-for="Gender" class="form-check-label">Female</label>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
                     </div>
                     <br />
                         
                     <div class="form-floating mx-auto">
-                        <input asp-for="DOB" class="form-control col-6" id="DOB" />
+                        <input asp-for="DOB" class="form-control col-6" id="DOB" type="date"/>
                         <label asp-for="DOB" class="form-label ">Date of Birth</label>
                         <span asp-validation-for="DOB" class="text-danger"></span>
                     </div>
@@ -60,7 +60,7 @@
 
                     <div class="text-start fw-bold">
                         <label asp-for="State" class="form-label">State:</label>
-                        <select name="State" id="State" style="height:25px; width:160px; margin-left:23px;"></select> <br>
+                        <select name="State" id="State" style="height:25px; width:160px; margin-left:23px;"></select>
                         <span asp-validation-for="State" class="text-danger"></span>
                     </div>
                     <br />
@@ -72,50 +72,63 @@
                     </div>
                     <br />
 
-                    <div class="text-start d-flex">
-                        <label asp-for="Hobbies" class="form-label fw-bold">Hobbies:&nbsp;&nbsp;</label><br/>
+                    <div class="text-start d-flex form-group">
+                        <label asp-for="Hobbies" class="form-label fw-bold">Hobbies:&nbsp;&nbsp;</label><br />
                         <div>
                             <div>
-                                <input type="checkbox" asp-for="Hobbies" id="sports" />
-                                <label asp-for="Hobbies" class="form-label ">Sports</label>
+                                <input type="checkbox" name="Hobbies" id="sports" value="Sports" class="form-check-input" />
+                                <label for="sports" class="form-check-label">Sports</label>
                             </div>
                             <div>
-                                <input type="checkbox" asp-for="Hobbies" id="books" />
-                                <label asp-for="Hobbies" class="form-label ">Reading Books</label>
+                                <input type="checkbox" name="Hobbies" id="books" value="Reading Books" class="form-check-input" />
+                                <label for="books" class="form-check-label">Reading Books</label>
                             </div>
                             <div>
-                                <input type="checkbox" asp-for="Hobbies" id="movies" />
-                                <label asp-for="Hobbies" class="form-label ">Watching Movies</label><br />
+                                <input type="checkbox" name="Hobbies" id="movies" value="Watching Movies" class="form-check-input" />
+                                <label for="movies" class="form-check-label">Watching Movies</label><br />
                             </div>
                         </div>
                         &nbsp;&nbsp;
                         <div>
                             <div>
-                                <input type="checkbox" asp-for="Hobbies" id="Travel" />
-                                <label asp-for="Hobbies" class="form-label ">Traveling</label>
+                                <input type="checkbox" name="Hobbies" id="Travel" value="Traveling" class="form-check-input" />
+                                <label for="Travel" class="form-check-label">Traveling</label>
                             </div>
                             <div>
-                                <input type="checkbox" asp-for="Hobbies" id="music" />
-                                <label asp-for="Hobbies" class="form-label">Listening to Music</label>
+                                <input type="checkbox" name="Hobbies" id="music" value="Listening to Music" class="form-check-input" />
+                                <label for="music" class="form-check-label">Listening to Music</label>
                             </div>
-                            <div class="form-floating col-6">
-                                <textarea rows="1" cols="15" asp-for="Hobbies">Others</textarea>
-                                <span asp-validation-for="Hobbies" class="text-danger"></span>
+                            <div>
+                                <textarea name="Hobbies" id="OtherHobbies" rows="1" cols="15" placeholder="Specify others" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
+                    <span asp-validation-for="Hobbies" class="text-danger"></span>
+
                     <br />
 
-                    <button class="btn btn-outline-primary btn-primary btn-lg text-white" type="submit" id="submit">
-                        Send Mail
+                    <button class="btn btn-outline-primary btn-primary btn-lg text-white" type="submit" id="submit" onclick="RegistrationSuccessMsg()">
+                        Register
                     </button>
                 </fieldset>
             </form>
         </div>
     </div>
 </div>
-@section Scripts {
-    @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
 
-   
+@section Scripts 
+{
+    @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
+    <script>
+        function RegistrationSuccessMsg()
+        {
+            if (ModelState.Isvalid) 
+            {
+                alert("Registration submitted successfully!");
+            }
+            else
+                alert("unable to register!!");
+        }
+    </script>
+
 }

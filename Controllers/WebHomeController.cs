@@ -2,6 +2,7 @@
 using ScopeIndia.Models;
 using MimeKit;
 using MimeKit.Text;
+using System;
 
 
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
@@ -78,8 +79,17 @@ namespace ScopeIndia.Controllers
         public IActionResult Registration(StudentModel sm)
         {
             if (!ModelState.IsValid)
+            {
+
                  return View(sm);
+
+            }
+
+            sm.AllHobbies=String.Join(",",sm.Hobbies);
+
             _student.Insert(sm);
+
+
             return View();
         }
     }

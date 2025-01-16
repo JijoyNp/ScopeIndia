@@ -18,6 +18,7 @@ namespace ScopeIndia.Data
                 string insertQuery = "INSERT INTO StudentsTable(FirstName,LastName,Gender,DOB,Email,PhNo,Country,State,City,Hobbies) VALUES(@FirstName,@LastName,@Gender,@DOB,@Email,@PhNo,@Country,@State,@City,@Hobbies)";
                 using (SqlCommand cmd = new SqlCommand(insertQuery, sqlConn))
                 {
+                 
                     cmd.Parameters.AddWithValue("@FirstName", sm.FirstName);
                     cmd.Parameters.AddWithValue("@LastName", sm.LastName);
                     cmd.Parameters.AddWithValue("@Gender", sm.Gender);
@@ -27,7 +28,7 @@ namespace ScopeIndia.Data
                     cmd.Parameters.AddWithValue("@Country", sm.Country);
                     cmd.Parameters.AddWithValue("@State", sm.State);
                     cmd.Parameters.AddWithValue("@City", sm.City);
-                    cmd.Parameters.AddWithValue("@Hobbies", sm.Hobbies);
+                    cmd.Parameters.AddWithValue("@Hobbies", sm.AllHobbies);
                     cmd.ExecuteNonQuery();
                 }
                 sqlConn.Close();
