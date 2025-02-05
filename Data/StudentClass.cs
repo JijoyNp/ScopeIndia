@@ -15,10 +15,10 @@ namespace ScopeIndia.Data
             using (SqlConnection sqlConn = new SqlConnection(_DBConnect))
             { 
                 sqlConn.Open();
-                string insertQuery = "INSERT INTO StudentsTable(FirstName,LastName,Gender,DOB,Email,PhNo,Country,State,City,Hobbies) VALUES(@FirstName,@LastName,@Gender,@DOB,@Email,@PhNo,@Country,@State,@City,@Hobbies)";
+                string insertQuery = "INSERT INTO StudentsTable(FirstName,LastName,Gender,DOB,Email,PhNo,Country,State,City,Hobbies,Avatar) VALUES(@FirstName,@LastName,@Gender,@DOB,@Email,@PhNo,@Country,@State,@City,@Hobbies,@Avatar)";
                 using (SqlCommand cmd = new SqlCommand(insertQuery, sqlConn))
                 {
-                 
+               
                     cmd.Parameters.AddWithValue("@FirstName", sm.FirstName);
                     cmd.Parameters.AddWithValue("@LastName", sm.LastName);
                     cmd.Parameters.AddWithValue("@Gender", sm.Gender);
@@ -29,6 +29,7 @@ namespace ScopeIndia.Data
                     cmd.Parameters.AddWithValue("@State", sm.State);
                     cmd.Parameters.AddWithValue("@City", sm.City);
                     cmd.Parameters.AddWithValue("@Hobbies", sm.AllHobbies);
+                    cmd.Parameters.AddWithValue("@Avatar", sm.Avatarpath);
                     cmd.ExecuteNonQuery();
                 }
                 sqlConn.Close();

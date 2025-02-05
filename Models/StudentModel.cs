@@ -6,39 +6,39 @@ namespace ScopeIndia.Models
     {
         [Required(ErrorMessage="Fill the field")]
         [DataType(DataType.Text)]
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Fill the field")]
         [DataType(DataType.Text)]
-        public string? LastName { get; set; }
+        public string LastName { get; set; }
 
         [Required(ErrorMessage = "Fill the field")]
         [DataType(DataType.Text)]
-        public string? Gender { get; set; }
+        public string Gender { get; set; }
 
         [Required(ErrorMessage = "Fill the field")]
         [DataType(DataType.Date)]
-        public string? DOB { get; set; }
+        public DateTime DOB { get; set; }
 
         [Required(ErrorMessage = "Fill the field")]
         [DataType(DataType.EmailAddress)]
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "Fill the field")]
         [DataType(DataType.PhoneNumber)]
-        public string? PhNo { get; set; }
+        public string PhNo { get; set; }
+
+        
+        [DataType(DataType.Text)]
+        public string Country { get; set; }
 
         [Required(ErrorMessage = "Fill the field")]
         [DataType(DataType.Text)]
-        public string? Country { get; set; }
+        public string State { get; set; }
 
-        [Required(ErrorMessage = "Fill the field")]
+        
         [DataType(DataType.Text)]
-        public string? State { get; set; }
-
-        [Required(ErrorMessage = "Fill the field")]
-        [DataType(DataType.Text)]
-        public string? City { get; set; }
+        public string City { get; set; }
 
         [Required(ErrorMessage = "Select atleast one!")]
         [DataType(DataType.Text)]
@@ -46,6 +46,9 @@ namespace ScopeIndia.Models
 
         public string? AllHobbies { get; set; }
 
+        public IFormFile Avatar { get; set; }
+
+        public string? Avatarpath {  get; set; }
 
     }
 }

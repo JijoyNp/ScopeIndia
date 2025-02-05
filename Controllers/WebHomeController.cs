@@ -7,6 +7,8 @@ using System;
 
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 using ScopeIndia.Data;
+using System.ComponentModel.DataAnnotations;
+using static System.Net.WebRequestMethods;
 
 namespace ScopeIndia.Controllers
 {
@@ -84,14 +86,81 @@ namespace ScopeIndia.Controllers
                  return View(sm);
 
             }
-
+            sm.Avatarpath = Upload(sm.Avatar);
             sm.AllHobbies=String.Join(",",sm.Hobbies);
-
             _student.Insert(sm);
+
+            string url= "https://localhost:7175/WebHome/Registration";
+
+            try
+            {
+                var email = new MimeMessage();
+                email.From.Add(MailboxAddress.Parse(sm.Email));
+                email.To.Add(MailboxAddress.Parse("jijoynpnlr@gmail.com"));
+                email.Subject = $"Registration";
+                email.Body = new TextPart(TextFormat.Plain)
+                {
+                    Text = $"{url}"
+                };
+
+
+                var smtp = new SmtpClient();
+                smtp.Connect("smtp.gmail.com", 587, MailKit.Security.SecureSocketOptions.StartTls);
+                smtp.Authenticate("jijoynpnlr@gmail.com", "ljyxpmpxgzdhcisg");
+                smtp.Send(email);
+                smtp.Disconnect(true);
+                ViewBag.Email = "Email sent successfully";
+                return View("Home");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Email = "Error sending email: " + ex.Message;
+            }
 
 
             return View();
         }
+
+        public string? Upload(IFormFile myfile)
+        {
+            string? upload_path = null;
+
+            string File_Name = myfile.FileName;
+            File_Name = Path.GetFileName(File_Name);
+            string upload_folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads");
+            if (!Directory.Exists(upload_folder))
+            {
+                Directory.CreateDirectory(upload_folder);
+            }
+
+            upload_path = Path.Combine(upload_folder, File_Name);
+            try
+            {
+                if (!File_Name.Except(upload_path).Any())
+                {
+                    var uploadsteam = new FileStream(upload_path, FileMode.Create);
+                    myfile.CopyTo(uploadsteam);
+                    ViewBag.AvatarMessage = "Upload Success";
+                }
+            }
+            catch (IOException FailureMessage)
+            {
+                ViewBag.AvatarMessage = "Upload Failure. Please try again";
+
+
+            }
+
+            return File_Name;
+        }
+
+        [HttpGet]
+        public IActionResult Login(StudentModel sm)
+        {
+            return View();
+        }
+
+        
+
     }
 }
 

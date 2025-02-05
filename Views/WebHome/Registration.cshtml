@@ -2,7 +2,7 @@
 <div >
     <div class="text-center mt-5">
         <div class="container bg-success h-50 w-50  pb-3">
-            <form asp-controller="WebHome" asp-action="Registration" method="post">
+            <form asp-controller="WebHome" asp-action="Registration" method="post" enctype="multipart/form-data">
                 <fieldset>
                     <legend>Registration Form</legend>
                     <div class="form-floating mx-auto ">
@@ -24,7 +24,7 @@
                         <label asp-for="Gender" class="fw-bold">Gender:</label>
                         <input type="radio" asp-for="Gender" id="Male" value="male" class="form-check-input">
                         <label asp-for="Gender" class="form-check-label">Male</label>
-                        <input type="radio" asp-for="Gender" id="Female" value="female">
+                        <input type="radio" asp-for="Gender" id="Female" value="female" class="form-check-input">
                         <label asp-for="Gender" class="form-check-label">Female</label>
                         <span asp-validation-for="Gender" class="text-danger"></span>
                     </div>
@@ -51,24 +51,22 @@
                     </div>
                     <br />
 
-                    <div class="text-start fw-bold">
-                        <label asp-for="Country" class="">Country:</label>
-                        <select name="Country" id="Country" style="height:25px; width:160px;"></select> <br>              
-                        <span asp-validation-for="Country" class="text-danger"></span>
+                    <div class="text-start">
+                        <label asp-for="Country" class="form-label fw-bold">Country:</label>
+                        <select asp-for="Country" id="Country" style="height:25px; width:160px;"></select> <br>              
                     </div>
                     <br />
 
-                    <div class="text-start fw-bold">
-                        <label asp-for="State" class="form-label">State:</label>
-                        <select name="State" id="State" style="height:25px; width:160px; margin-left:23px;"></select>
+                    <div class="text-start">
+                        <label asp-for="State" class="form-label  fw-bold">State:</label>
+                        <select asp-for="State" id="State" style="height:25px; width:160px; margin-left:23px;"></select>
                         <span asp-validation-for="State" class="text-danger"></span>
                     </div>
                     <br />
 
-                    <div class="text-start fw-bold">
-                        <label asp-for="City" class="form-label">City:</label>
-                        <select name="City" id="City" style="height:25px; width:160px; margin-left:29px;"></select>
-                        <span asp-validation-for="City" class="text-danger"></span>
+                    <div class="text-start">
+                        <label asp-for="City" class="form-label  fw-bold">City:</label>
+                        <select asp-for="City" id="City" style="height:25px; width:160px; margin-left:29px;"></select>
                     </div>
                     <br />
 
@@ -99,12 +97,16 @@
                                 <label for="music" class="form-check-label">Listening to Music</label>
                             </div>
                             <div>
-                                <textarea name="Hobbies" id="OtherHobbies" rows="1" cols="15" placeholder="Specify others" class="form-control"></textarea>
+                                <textarea asp-for="Hobbies" name="Hobbies" id="OtherHobbies" rows="1" cols="15" placeholder="Specify others" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
-                    <span asp-validation-for="Hobbies" class="text-danger"></span>
+                    <span asp-validation-for="Hobbies" class="text-danger text-start"></span><br/>
 
+                    <input type="file" asp-for="Avatar" name="avatar"/>
+                    <span asp-validation-for="Avatar" class="text-danger text-start"></span>
+                    <br />
+                    <br />
                     <br />
 
                     <button class="btn btn-outline-primary btn-primary btn-lg text-white" type="submit" id="submit" onclick="RegistrationSuccessMsg()">

@@ -5,8 +5,9 @@
 }
 
 .scopeLogo {
-    position: absolute;
-    left: 49%;
+    display:flex;
+    align-items:center;
+
 }
 .menuBar {
     position: absolute;
