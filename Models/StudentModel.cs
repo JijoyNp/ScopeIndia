@@ -1,9 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ScopeIndia.Models
 {
     public class StudentModel
     {
+        public int Id { get; set; } 
+
         [Required(ErrorMessage="Fill the field")]
         [DataType(DataType.Text)]
         public string FirstName { get; set; }
@@ -18,7 +21,7 @@ namespace ScopeIndia.Models
 
         [Required(ErrorMessage = "Fill the field")]
         [DataType(DataType.Date)]
-        public DateTime DOB { get; set; }
+        public DateTime? DOB { get; set; }
 
         [Required(ErrorMessage = "Fill the field")]
         [DataType(DataType.EmailAddress)]
@@ -49,6 +52,13 @@ namespace ScopeIndia.Models
         public IFormFile Avatar { get; set; }
 
         public string? Avatarpath {  get; set; }
+
+        public string? Password { get; set; }
+
+        public int? CourseId { get; set; }
+
+        public bool? IsVerified { get; set; }
+    
 
     }
 }

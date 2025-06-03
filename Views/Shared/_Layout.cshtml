@@ -12,41 +12,85 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-0">
             <div class="container-fluid">
-                <a class="navbar-brand scopeLogo"  asp-area="" asp-controller="WebHome" asp-action="Home"><img src="~/images/scope-india-logo-bird.png" style="height:50px; width:50px;"></a>
+                <div style="position:absolute; left:48%" class="scopeLogo"><a class="navbar-brand" asp-area="" asp-controller="WebHome" asp-action="Home"><img src="~/images/scope-india-logo-bird.png" style="height:50px; width:50px;"></a></div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between menuBar">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="Home">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="AboutUs">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="Contact">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="Registration">Registration</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="StudentDashboard">Student Dashboard</a>
-                        </li>
+                        @if (Context.Session.GetString("UserEmail") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="Home">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="AboutUs">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="Contact">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="StudentDashboard">Dashboard</a>
+                            </li>
+                            <li class="nav-item login-out">
+                                <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            
+
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="Home">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="AboutUs">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="Contact">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="Registration">Registration</a>
+                            </li>
+                            <li class="nav-item login-out">
+                                <a class="nav-link text-white" asp-area="" asp-controller="WebHome" asp-action="Login">Login</a>
+                            </li>
+                        }
+
+
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
+            <div class="chatWithUs">
+                <img src="~/Images/whatsapp.png" height="50px" width="50px"/>
+                <div class="hover-comment">Chat with us</div>
+            </div>
             @RenderBody()
         </main>
     </div>
+
+    <footer>
+        <div>
+            <img src="~/Images/snowpark-footer-logo.png" class="img1" />
+            <p>Technopark TVM | Thampanoor TVM | Kochi, Kerala | Nagercoil Tamil Nadu</p>
+        </div>
+        <div>
+            <img src="~/Images/iso_iaflogo.png" class="img2" />
+            <p>An ISO 9001:2015 Certified Company</p>
+            <p>All Rights Suffix E Solutions &copy; 2007-2025</p>
+        </div>
+        <div>
+            <span>9745936073(TPK)</span>
+            <span>7592939481(EKM)</span>
+            <span>8075536185(NGL)</span>
+            <span>info@scopeindia.org</span>
+        </div>
+    </footer>
 
   
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

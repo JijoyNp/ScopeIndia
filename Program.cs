@@ -1,11 +1,30 @@
 using ScopeIndia.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Configuration.GetConnectionString("DBConnect");
 builder.Services.AddScoped<IStudent, StudentClass>();
+builder.Services.AddScoped<ICourse, DerivedCourse>();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+    options.Cookie.HttpOnly = true; // Make session cookies accessible only via HTTP
+    options.Cookie.IsEssential = true; // Ensure session cookies are not blocked
+});
+builder.Services.AddDistributedMemoryCache(); // Required for session
+builder.Services.AddHttpContextAccessor(); // Access session in controllers
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login"; // Redirect to Login page if not authenticated
+        options.LogoutPath = "/Account/Logout"; // Logout URL
+        options.AccessDeniedPath = "/Account/AccessDenied"; // Redirect if access is denied
+    });
+
 
 var app = builder.Build();
 
@@ -17,11 +36,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

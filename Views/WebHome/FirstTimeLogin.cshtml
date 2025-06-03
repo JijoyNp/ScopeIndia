@@ -1,0 +1,29 @@
+﻿@if (ViewBag.ValidEmail != null)
+{
+    <h4 class="text-danger">@ViewBag.ValidEmail</h4>
+}
+
+<div>
+    <div class="text-center mt-5">
+        <div class="container bg-success h-50 w-50  pb-3">
+            <form asp-controller="WebHome" asp-action="FirstTimeLogin" method="post">
+                <fieldset>
+                    <legend>Enter Email</legend>
+                    <div>
+                        <input name="email1" class="form-control" />
+                        <label for="email1" class="form-label">Email</label>
+                       
+                    </div>
+                    <br />
+                    <br />
+
+                    <button type="submit">Submit</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
+}
