@@ -636,6 +636,18 @@ namespace ScopeIndia.Controllers
             {
                 return NotFound();
             }*/
+            StudentModel existingStudent = _student.GetByEmail(HttpContext.Session.GetString("UserEmail"));
+
+            ViewBag.FirstName = existingStudent.FirstName;
+            ViewBag.LastName = existingStudent.LastName;
+            ViewBag.Email = existingStudent.Email;
+            ViewBag.PhNo = existingStudent.PhNo;
+            ViewBag.Country = existingStudent.Country;
+            ViewBag.State = existingStudent.State;
+            ViewBag.City = existingStudent.City;
+            ViewBag.DOB = existingStudent.DOB;
+            ViewBag.Avatar = existingStudent.Avatarpath;
+            ViewBag.Gender= existingStudent.Gender;
 
             CheckSession();
 
@@ -645,12 +657,10 @@ namespace ScopeIndia.Controllers
         [HttpPost]
         public IActionResult EditProfile(StudentModel model, IFormFile avatar)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            
 
             StudentModel existingStudent = _student.GetByEmail(HttpContext.Session.GetString("UserEmail"));
+            
 
             existingStudent.FirstName = model.FirstName;
             existingStudent.LastName = model.LastName;

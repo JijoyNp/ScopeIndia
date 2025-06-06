@@ -7,8 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Extensions\SessionExtensions.cs" />
+	  <Content Update="wwwroot\**">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+  </ItemGroup>
+
+
+
+
+  <ItemGroup>
+
+    <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="MailKit" Version="4.9.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
     <PackageReference Include="MimeKit" Version="4.9.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Optivem.Framework.Infrastructure.FluentValidation" Version="1.0.23" />
   </ItemGroup>
 
 </Project>

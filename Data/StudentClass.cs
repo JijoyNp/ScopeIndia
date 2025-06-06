@@ -120,7 +120,7 @@ namespace ScopeIndia.Data
                 string selquery = "SELECT * FROM StudentsTable WHERE Email=@Email";
                 using (SqlCommand cmd = new SqlCommand(selquery, conn))
                 {
-                    cmd.Parameters.AddWithValue("Email", Email);
+                    cmd.Parameters.AddWithValue("@Email", Email);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())

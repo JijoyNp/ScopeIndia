@@ -4,36 +4,32 @@
     ViewData["Title"] = "Edit Student";
 }
 
-@if (TempData["Success"] != null)
-{
-    <div id="viewbagAlert" class="alert alert-success text-center">
-        @TempData["Success"]
-        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="closeViewBagMessage()"></button>
-    </div>
-}
+
 
 <h2 class="text-warning text-center pt-4">Profile update</h2>
 
 <form asp-action="EditProfile" asp-controller="WebHome" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
 
-  <div style="position:relative; left:34%; width:500px;" >   
-    <div class="mb-3">
-        <label asp-for="FirstName" class="form-label">First Name</label>
-        <input asp-for="FirstName" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label asp-for="LastName" class="form-label">Last Name</label>
-        <input asp-for="LastName" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label asp-for="Gender" class="fw-bold">Gender</label>
-        <div class="form-check form-check-inline">
-            <input type="radio" asp-for="Gender" id="Male" value="male" class="form-check-input">
+    <div style="position:relative; left:34%; width:500px;" >   
+        <div class="mb-3">
+            <label asp-for="FirstName" class="form-label">First Name</label>
+            <input asp-for="FirstName" class="form-control" value="@ViewBag.FirstName"/>
+        </div>
+        <div class="mb-3">
+            <label asp-for="LastName" class="form-label">Last Name</label>
+            <input asp-for="LastName" class="form-control" value="@ViewBag.LastName"/>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Gender" class="fw-bold">Gender</label>
+            <div class="form-check form-check-inline">
+                <input type="text" value="@ViewBag.Gender" id="GenderSelector" hidden/>
+                <input type="radio" asp-for="Gender" id="Male" value="@ViewBag.Gender" class="form-check-input" disabled>
             <label asp-for="Gender" class="form-check-label">Male</label>
         </div>
         <div class="form-check form-check-inline">
-            <input type="radio" asp-for="Gender" id="Female" value="female" class="form-check-input">
+                <input type="radio" asp-for="Gender" id="Female" value="@ViewBag.Gender" class="form-check-input" disabled>
             <label asp-for="Gender" class="form-check-label">Female</label>
         </div>
     </div>
@@ -41,41 +37,40 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <div class="form-floating">
-                <input asp-for="DOB" class="form-control" id="DOB" type="date" />
+
+                    <input asp-for="DOB" class="form-control" id="DOB" type="date" value="@(((DateTime)ViewBag.DOB).ToString("yyyy-MM-dd"))" readonly />
                 <label asp-for="DOB">Date of Birth</label>
-                <span asp-validation-for="DOB" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6 mb-3">
             <div class="form-floating">
-                <input asp-for="Email" class="form-control" id="Email" placeholder="Email" />
+                <input asp-for="Email" class="form-control" id="Email" placeholder="Email"  value="@ViewBag.Email" readonly/>
                 <label asp-for="Email">E-mail</label>
-                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
     </div>
 
     <div class="mb-3">
         <div class="form-floating">
-            <input asp-for="PhNo" class="form-control" id="PhNo" placeholder="Phone Number" />
+            <input asp-for="PhNo" class="form-control" id="PhNo" placeholder="Phone Number" value="@ViewBag.PhNo"/>
             <label asp-for="PhNo">Phone Number</label>
-            <span asp-validation-for="PhNo" class="text-danger"></span>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-4 mb-3">
             <label asp-for="Country" class="fw-bold">Country:</label>
-            <select asp-for="Country" id="Country" class="form-select"></select>
+            <select asp-for="Country" id="Country" class="form-select" name="Country">
+            </select>
         </div>
         <div class="col-md-4 mb-3">
             <label asp-for="State" class="fw-bold">State:</label>
-            <select asp-for="State" id="State" class="form-select"></select>
-            <span asp-validation-for="State" class="text-danger"></span>
+            <select asp-for="State" id="State" class="form-select" name="State"></select>
+       
         </div>
         <div class="col-md-4 mb-3">
             <label asp-for="City" class="fw-bold">City:</label>
-            <select asp-for="City" id="City" class="form-select"></select>
+            <select asp-for="City" id="City" class="form-select" name="City"></select>
         </div>
     </div>
 
@@ -111,13 +106,11 @@
                 </div>
             </div>
         </div>
-        <span asp-validation-for="Hobbies" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="Avatar" class="fw-bold">Upload Avatar:</label>
         <input type="file" asp-for="Avatar" name="avatar" class="form-control" />
-        <span asp-validation-for="Avatar" class="text-danger"></span>
     </div>
     
 
@@ -126,3 +119,129 @@
     </div>
   </div>
 </form>
+
+@section Scripts
+{
+    @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
+
+    <script>
+        var genderValue = "@ViewBag.Gender";
+        if (genderValue.toLowerCase() === 'male') {
+            document.getElementById("Male").checked = true;
+        } else {
+            document.getElementById("Female").checked = true;
+        }
+
+        $(document).ready(function () {
+            var selectedCountry = "@ViewBag.Country";
+            var selectedState = "@ViewBag.State";
+            var selectedCity = "@ViewBag.City";
+
+            // Country list
+            var country_arr = ["Select Country", "AUSTRALIA", "INDIA", "NEW ZEALAND", "USA", "UAE", "MAURITIUS"];
+            $.each(country_arr, function (i, item) {
+                $('#Country').append($('<option>', {
+                    value: item,
+                    text: item
+                }));
+            });
+
+            $('#Country').val(selectedCountry);
+
+            // States
+            var s_a = {
+                "Select Country": "Select State",
+                "AUSTRALIA": "Select State|QUEENSLAND|VICTORIA",
+                "INDIA": "Select State|ANDHRAPRADESH|KARNATAKA|TAMILNADU|DELHI|GOA|W-BENGAL|GUJARAT|MADHYAPRADESH|MAHARASHTRA|RAJASTHAN|KERALA",
+                "NEW ZEALAND": "Select State|AUCKLAND",
+                "USA": "Select State|NEWJERSEY|ILLINOIS",
+                "UAE": "Select State|DUBAI",
+                "MAURITIUS": "Select State|MAURITIUS"
+            };
+
+            // Cities
+            var c_a = {
+                "QUEENSLAND": "BRISBANE",
+                "VICTORIA": "MELBOURNE",
+                "ANDHRAPRADESH": "HYDERABAD",
+                "KARNATAKA": "BANGLORE",
+                "TAMILNADU": "CHENNAI",
+                "DELHI": "DELHI",
+                "GOA": "GOA",
+                "W-BENGAL": "KOLKATA",
+                "GUJARAT": "AHMEDABAD1|AHMEDABAD2|AHMEDABAD3|BARODA|BHAVNAGAR|MEHSANA|RAJKOT|SURAT|UNA",
+                "MADHYAPRADESH": "INDORE",
+                "MAHARASHTRA": "MUMBAI|PUNE",
+                "RAJASTHAN": "ABU",
+                "AUCKLAND": "AUCKLAND",
+                "NEWJERSEY": "EDISON",
+                "ILLINOIS": "CHICAGO",
+                "DUBAI": "DUBAI",
+                "MAURITIUS": "MAURITIUS",
+                "KERALA": "TRIVANDRUM|MALAPPURAM|WAYANAD|KANNUR|KOZHIKKODE|PATHANAMTHITTA|KOTTAYAM|IDUKKI|KASARGOD|ALAPPUZHA|PALAKKAD|THRISSUR|ERNAMKULAM|KOLLAM"
+            };
+
+            // Populate states
+            if (selectedCountry && s_a[selectedCountry]) {
+                var state_arr = s_a[selectedCountry].split("|");
+                $('#State').empty();
+                $.each(state_arr, function (i, item) {
+                    $('#State').append($('<option>', {
+                        value: item,
+                        text: item
+                    }));
+                });
+                $('#State').val(selectedState);
+            }
+
+            // Populate cities
+            if (selectedState && c_a[selectedState]) {
+                var city_arr = c_a[selectedState].split("|");
+                $('#City').empty();
+                $.each(city_arr, function (i, item) {
+                    $('#City').append($('<option>', {
+                        value: item,
+                        text: item
+                    }));
+                });
+                $('#City').val(selectedCity);
+            }
+
+            // Country change
+            $('#Country').change(function () {
+                var c = $(this).val();
+                var state_arr = s_a[c] ? s_a[c].split("|") : ["Select State"];
+                $('#State').empty();
+                $('#City').empty();
+
+                $.each(state_arr, function (i, item_state) {
+                    $('#State').append($('<option>', {
+                        value: item_state,
+                        text: item_state
+                    }));
+                });
+
+                $('#City').append($('<option>', {
+                    value: '',
+                    text: 'Select City'
+                }));
+            });
+
+            // State change
+            $('#State').change(function () {
+                var s = $(this).val();
+                var city_arr = c_a[s] ? c_a[s].split("|") : ["Select City"];
+                $('#City').empty();
+
+                $.each(city_arr, function (i, item_city) {
+                    $('#City').append($('<option>', {
+                        value: item_city,
+                        text: item_city
+                    }));
+                });
+            });
+        });
+
+
+    </script>
+}
