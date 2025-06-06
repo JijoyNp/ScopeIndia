@@ -1,1 +1,149 @@
-﻿
+﻿<div style="background-image: url('images/slider_bg.jpg'); height:800px; width:100%;" class="d-flex  justify-content-center align-items-center">
+    <div>
+        <img src="~/images/scope-india-logo-home-page.png"  style="max-height:190px; max-width:550px"/>
+    </div>
+</div>
+
+
+
+
+    <style>
+        .multi-carousel-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            position: relative;
+        }
+
+        .carousel-inner-multi {
+            display: flex;
+            transition: transform 0.6s ease;
+            gap: 1rem;
+            padding: 0 10%;
+            overflow:unset;
+        }
+
+        .carousel-item-multi {
+            flex: 0 0 33.33%;
+            transition: transform 0.5s, opacity 0.5s;
+            opacity: 0.4;
+            transform: scale(0.9);
+            z-index: 1;
+        }
+
+            .carousel-item-multi.active-center {
+                opacity: 1;
+                transform: scale(1.05);
+                z-index: 2;
+            }
+
+        .carousel-img {
+            width: 150%;
+            height:400px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            z-index: 3;
+        }
+
+            .carousel-nav:hover {
+                background: rgba(0, 0, 0, 0.8);
+            }
+
+        .carousel-prev {
+            left: 10px;
+        }
+
+        .carousel-next {
+            right: 10px;
+        }
+        div.row.justify-content-center{
+            height:1150px;
+        }
+        
+    </style>
+
+
+<div class="container">
+    <div class="multi-carousel-container">
+        <div class="carousel-inner-multi" id="customCarousel">
+            <div class="carousel-item-multi active-center">
+                <img src="~/Images/carosel-images/scope-india-digital-marketing-course.jpg" class="carousel-img" alt="1">
+            </div>
+            <div class="carousel-item-multi">
+                <img src="~/Images/carosel-images/scope-india-java-full-stack-course (1).jpg" class="carousel-img" alt="2">
+            </div>
+            <div class="carousel-item-multi">
+                <img src="~/Images/carosel-images/scope-india-python-full-stack-course (1).jpg" class="carousel-img" alt="3">
+            </div>
+            <div class="carousel-item-multi">
+                <img src="~/Images/carosel-images/scope-india-network-server-administration-course (1).jpg" class="carousel-img" alt="4">
+            </div>
+            <div class="carousel-item-multi">
+                <img src="~/Images/carosel-images/scope-india-software-testing-manual-automation-course.jpg" class="carousel-img" alt="5">
+            </div>
+        </div>
+
+        <button class="carousel-nav carousel-prev" id="prevSlide">
+            &lt;
+        </button>
+        <button class="carousel-nav carousel-next" id="nextSlide">
+            &gt;
+        </button>
+    </div>
+</div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const items = document.querySelectorAll(".carousel-item-multi");
+            const wrapper = document.getElementById("customCarousel");
+            const prev = document.getElementById("prevSlide");
+            const next = document.getElementById("nextSlide");
+
+            let index = 0;
+
+            function updateCarousel() {
+                wrapper.style.transform = `translateX(-${index * (100 / 5)}%)`;
+
+                items.forEach((item, i) => {
+                    item.classList.remove("active-center");
+                    if (i === index + 1) {
+                        item.classList.add("active-center");
+                    }
+                });
+            }
+
+            prev.addEventListener("click", () => {
+                if (index > -1) {
+                    index--;
+                    updateCarousel();
+                }
+            });
+
+            next.addEventListener("click", () => {
+                if (index < items.length - 2) {
+                    index++;
+                    updateCarousel();
+                }
+            });
+
+            updateCarousel();
+        });
+    </script>
+
+
+
+
+
+
+

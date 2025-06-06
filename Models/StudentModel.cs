@@ -55,7 +55,7 @@ namespace ScopeIndia.Models
 
         public string? Password { get; set; }
 
-        public int? CourseId { get; set; }
+        public string? CourseId { get; set; }
 
         public bool? IsVerified { get; set; }
     

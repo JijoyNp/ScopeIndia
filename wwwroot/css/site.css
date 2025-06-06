@@ -1,16 +1,24 @@
 
 * {
-    margin:0px;
-    scroll-behavior:smooth;
-}
-
-.scopeLogo {
-
+    margin: 0px;
+    scroll-behavior: smooth;
 
 }
+
+.scopeLogo a img {
+    height: 40px;
+    width: 40px;
+    transition: all 0.3s ease-in-out; 
+}
+
+    .scopeLogo a img:hover {
+        height: 50px;
+        width: 50px;
+    }
 .menuBar {
     position: absolute;
     right: 25px;
+    
 }
 .navbar {
     height: 100px;
@@ -21,40 +29,50 @@
     width:1092px;
     overflow:hidden;
 }
-body {
-    background-image: url('../Images/slider_bg.jpg');
-    background-repeat: no-repeat;
 
-    background-position: center;
+.aboutUs {
+    max-width: 80%;
+    margin: auto;
+    padding: 50px 20px;
+    font-family: Arial, sans-serif;
 }
+
 .abtH1 {
-    color: #fbba02;
-    font: 55px Viga;
-    margin: 0px 0px 15px;
-    font-size: 55px;
-    line-height: 65px;
-    font-weight: 500;
-    letter-spacing: 0px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
 }
+
 .abtH2 {
-    color: #ffffff;
-    font: 34px Viga;
-    margin: 0px 0px 15px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #34495e;
+    text-align: center;
+    margin-bottom: 30px;
 }
-.abtP1 {
-    color: #ffffff;
-    font: 15px Poppins,Arial,Tahoma,sans-serif;
-    margin: 0px 0px 15px;
+
+.abtP {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-.abtP2 {
-    color: #ffffff;
-    font: 15px Poppins,Arial,Tahoma,sans-serif;
-    margin: 0px 0px 15px;
+
+.abtP1, .abtP2 {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
 }
+
 .abtStar {
-    height: 119px;
-    width: 312px;
+    display: block;
+    margin: 30px auto;
+    max-width: 250px;
 }
+
 .navbar {
     height:60px;
     margin-bottom:0px;
@@ -69,28 +87,14 @@ h6{
     position: fixed;
     right: 30px;
     bottom: 30px;
+    cursor: pointer;
+}
 
+.whatsapp-icon {
+    height: 50px;
+    width: 50px;
 }
-.chatWithUs :active{
-    height:40px;
-    width:40px;
-}
-.hover-comment {
-    display: none;
-    position: absolute;
-    bottom: 10px;
-    left: -52px;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 14px;
-    white-space: nowrap;
-}
-.chatWithUs:hover .hover-comment {
-    display: revert-layer;
-}
+
 .menu-bar ul {
     list-style: none;
     padding: 0;
@@ -117,8 +121,9 @@ h6{
     border-radius: 5px;
 }
 .login-out {
-    border: 1px solid #005bb5;
+    border: 1px solid #000000;
     border-radius: 5px;
+    color:black;
 }
 footer {
     background-color: #071E67;
@@ -166,14 +171,62 @@ footer span:hover {
     text-decoration: underline;
     color: #f8b400;
 }
+.form-container {
+    background-color: #f0f8ff; /* Light blue */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: auto;
+}
 
-@media (max-width: 768px) {
+#Message {
+    height: 120px;
+    background-color: #f0f8ff;
+}
+    #Message:focus {
+        background-color: white;
+    }
+
+#viewbagAlert.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+div.multi-carousel-container {
+    overflow: hidden;
+}
+
+@media (max-width: 784px) {
     footer {
         flex-direction: column;
         align-items: center;
     }
     .scopeLogo {
-        left: 5px;
+
+    }
+}
+@media (max-width: 800px) {
+    .nav-item a{
+        display:none;
+    }
+    header button {
+        display:block;
+    }
+}
+@media (min-width: 800px) {
+
+    header button {
+        display: none;
+    }
+}
+@media (max-width: 768px) {
+    .carousel-inner-multi {
+        padding: 0 5%;
+    }
+
+    .carousel-item-multi {
+        flex: 0 0 100%;
     }
 }
 

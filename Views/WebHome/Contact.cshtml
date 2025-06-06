@@ -1,46 +1,62 @@
 ﻿@model ScopeIndia.Models.ContactModel
-<div class="text-center mt-5">
-    <div>
-        <div class="container bg-success h-50 w-50">
-            <form asp-controller="WebHome" asp-action="Contact" method="post" class="pt-3 pb-3">
-                <fieldset>
-                    <legend>Contact Us</legend>
-                    <div class="form-floating mx-auto">
-                        <input asp-for="UserName" class="form-control col-6" id="UserName"/>
-                        <label asp-for="UserName" class="form-label col-6">Name</label>
+
+@if (ViewBag.contactMessageSuccess != null)
+{
+    <div id="viewbagAlert" class="alert alert-success text-center">
+        @ViewBag.contactMessageSuccess
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="closeViewBagMessage()"></button>
+    </div>
+}
+
+@if (ViewBag.contactMessageFail != null)
+{
+    <div id="viewbagAlert" class="alert alert-success text-center">
+        @ViewBag.contactMessageFail
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="closeViewBagMessage()"></button>
+    </div>
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="p-4 rounded shadow" style="background-color:#f0f8ff">
+                <h2 class="text-center text-primary mb-4">Contact Us</h2>
+                <form asp-controller="WebHome" asp-action="Contact" method="post">
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="UserName" class="form-control" id="UserName" placeholder="Your Name" />
+                        <label asp-for="UserName">Name</label>
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
-                    <br/>
 
-                    <div class="form-floating mx-auto">
-                        <input asp-for="UserEmail" class="form-control col-6" id="UserEmail"/>
-                        <label asp-for="UserEmail" class="form-label col-6">Email</label>
+                    <div class="form-floating mb-3">
+                        <input asp-for="UserEmail" class="form-control" id="UserEmail" placeholder="Your Email" />
+                        <label asp-for="UserEmail">Email</label>
                         <span asp-validation-for="UserEmail" class="text-danger"></span>
                     </div>
-                    <br/>
 
-                    <div class="form-floating mx-auto">
-                        <input asp-for="Subject" class="form-control col-6" id="Subject"/>
-                        <label asp-for="Subject" class="form-label col-6">Subject</label>
+                    <div class="form-floating mb-3">
+                        <input asp-for="Subject" class="form-control" id="Subject" placeholder="Subject" />
+                        <label asp-for="Subject">Subject</label>
                         <span asp-validation-for="Subject" class="text-danger"></span>
                     </div>
-                    <br/>
 
-                     <div class="form-floating mx-auto">
-                        <input asp-for="Message" class="form-control col-6" id="Message"/>
-                        <label asp-for="Message" class="form-label col-6">Message</label>
+                    <div class="form-floating mb-3">
+                        <textarea asp-for="Message" class="form-control" id="Message" placeholder="Your Message"></textarea>
+                        <label asp-for="Message">Message</label>
                         <span asp-validation-for="Message" class="text-danger"></span>
                     </div>
-                    <br/>
 
-                    <button class="btn btn-outline-primary" type="submit" id="submit">
-                        Send Mail
-                    </button>
-                </fieldset>
-            </form>
+                    <div class="d-grid">
+                        <button class="btn btn-primary btn-lg" type="submit">Send Message</button>
+                    </div>
+
+                </form>
+            </div>
         </div>
     </div>
 </div>
-@section Scripts{
+
+@section Scripts {
     @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
 }

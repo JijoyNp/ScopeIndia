@@ -1,21 +1,16 @@
 ﻿
-<div>
-    <div class="text-center mt-5">
-        <div class="container bg-success h-50 w-50  pb-3">
-            <form asp-controller="WebHome" asp-action="OtpVerification" method="post">
-                <fieldset>
-                    <legend>OTP Verification</legend>
-                    <div>
-                        <input name="otp" class="form-control" />
-                        <label for="otp" class="form-label">OTP</label>
-                    </div>
-                    <br />
-                    <br />
-
-                    <button type="submit">Verify</button>
-                </fieldset>
-            </form>
-        </div>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="width: 400px; border-radius: 12px;">
+        <h3 class="text-center" style="color: #005bb5;">OTP Verification</h3>
+        <form asp-controller="WebHome" asp-action="OtpVerification" method="post">
+            <div class="mb-3">
+                <input name="otp" class="form-control" placeholder="Enter OTP" />
+                <label for="otp" class="form-label"></label>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn w-100" style="background-color: #005bb5; color: white;">Verify</button>
+            </div>
+        </form>
     </div>
 </div>
 @section Scripts

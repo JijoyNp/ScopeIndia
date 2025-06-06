@@ -6,19 +6,20 @@
     }
     @if (!string.IsNullOrEmpty(ViewBag.UserName))
     {
-        <div style="float:right; margin-top:10px; margin-bottom:10px; display:flex;">
-            <div><img src="@imgPath" alt="User Avatar" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;"></div>
-            <div class="ps-2"><span class="ms-2 text-white">Hi,<br />@ViewBag.UserName</span></div>
+        <div style="float:right; margin:10px; display:flex; ">
+            <div><a class="nav-link" asp-area="" asp-controller="WebHome" asp-action="StudentDashboard"><img src="@imgPath" alt="User Avatar" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;"></a></div>
+            <div class="ps-2">
+                <span class="ms-2">Hi,<br />@ViewBag.UserName</span>
+            </div>
         </div>
     }
 </div>
 
 <h2 class="text-warning text-center pt-4">Dashboard</h2>
 
-<table class="table table-bordered text-light">
+<table class="table table-bordered" style="border:2px solid #005bb5">
     <thead>
         <tr>
-            <th hidden>Course ID</th>
             <th>Course Name</th>
             <th>Duration</th>
             <th>Fee</th>
@@ -29,11 +30,15 @@
         @foreach (var course in Model)
         {
             <tr>
-                <td hidden>@course.CourseId</td>
                 <td>@course.CourseName</td>
                 <td>@course.CourseDuration</td>
                 <td>@course.CourseFee</td>
-                <td class="text-center"><button>Join</button></td>
+                <td class="text-center">
+                    <form asp-action="StudentDashboard" asp-controller="WebHome" method="post">
+                        <input type="hidden" name="courseId" value="@course.CourseId" />
+                        <button type="submit" formtarget="_blank">Join</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>

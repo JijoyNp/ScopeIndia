@@ -1,0 +1,128 @@
+﻿@model ScopeIndia.Models.StudentModel
+
+@{
+    ViewData["Title"] = "Edit Student";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div id="viewbagAlert" class="alert alert-success text-center">
+        @TempData["Success"]
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="closeViewBagMessage()"></button>
+    </div>
+}
+
+<h2 class="text-warning text-center pt-4">Profile update</h2>
+
+<form asp-action="EditProfile" asp-controller="WebHome" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+
+  <div style="position:relative; left:34%; width:500px;" >   
+    <div class="mb-3">
+        <label asp-for="FirstName" class="form-label">First Name</label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label">Last Name</label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Gender" class="fw-bold">Gender</label>
+        <div class="form-check form-check-inline">
+            <input type="radio" asp-for="Gender" id="Male" value="male" class="form-check-input">
+            <label asp-for="Gender" class="form-check-label">Male</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="radio" asp-for="Gender" id="Female" value="female" class="form-check-input">
+            <label asp-for="Gender" class="form-check-label">Female</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="form-floating">
+                <input asp-for="DOB" class="form-control" id="DOB" type="date" />
+                <label asp-for="DOB">Date of Birth</label>
+                <span asp-validation-for="DOB" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="form-floating">
+                <input asp-for="Email" class="form-control" id="Email" placeholder="Email" />
+                <label asp-for="Email">E-mail</label>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="form-floating">
+            <input asp-for="PhNo" class="form-control" id="PhNo" placeholder="Phone Number" />
+            <label asp-for="PhNo">Phone Number</label>
+            <span asp-validation-for="PhNo" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label asp-for="Country" class="fw-bold">Country:</label>
+            <select asp-for="Country" id="Country" class="form-select"></select>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label asp-for="State" class="fw-bold">State:</label>
+            <select asp-for="State" id="State" class="form-select"></select>
+            <span asp-validation-for="State" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label asp-for="City" class="fw-bold">City:</label>
+            <select asp-for="City" id="City" class="form-select"></select>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Hobbies" class="fw-bold">Hobbies:</label>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-check">
+                    <input type="checkbox" name="Hobbies" id="sports" value="Sports" class="form-check-input">
+                    <label for="sports" class="form-check-label">Sports</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="Hobbies" id="books" value="Reading Books" class="form-check-input">
+                    <label for="books" class="form-check-label">Reading Books</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="Hobbies" id="movies" value="Watching Movies" class="form-check-input">
+                    <label for="movies" class="form-check-label">Watching Movies</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-check">
+                    <input type="checkbox" name="Hobbies" id="Travel" value="Traveling" class="form-check-input">
+                    <label for="Travel" class="form-check-label">Traveling</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" name="Hobbies" id="music" value="Listening to Music" class="form-check-input">
+                    <label for="music" class="form-check-label">Listening to Music</label>
+                </div>
+                <div class="form-floating">
+                    <textarea asp-for="Hobbies" name="Hobbies" id="OtherHobbies" class="form-control" placeholder="Specify others"></textarea>
+                    <label for="OtherHobbies">Specify others</label>
+                </div>
+            </div>
+        </div>
+        <span asp-validation-for="Hobbies" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Avatar" class="fw-bold">Upload Avatar:</label>
+        <input type="file" asp-for="Avatar" name="avatar" class="form-control" />
+        <span asp-validation-for="Avatar" class="text-danger"></span>
+    </div>
+    
+
+    <div class="d-grid">
+        <button class="btn btn-success btn-lg" type="submit">Update</button>
+    </div>
+  </div>
+</form>

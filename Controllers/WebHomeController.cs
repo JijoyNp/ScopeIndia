@@ -2,19 +2,15 @@
 using ScopeIndia.Models;
 using MimeKit;
 using MimeKit.Text;
-using System;
-using BCrypt.Net;
 
 
 
 using SmtpClient = MailKit.Net.Smtp.SmtpClient;
 using ScopeIndia.Data;
-using System.ComponentModel.DataAnnotations;
-using static System.Net.WebRequestMethods;
-using Org.BouncyCastle.Crypto.Generators;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using System.Threading.Tasks;
+using ScopeIndia.wwwroot.Extensions;
+
 
 
 namespace ScopeIndia.Controllers
@@ -27,6 +23,7 @@ namespace ScopeIndia.Controllers
         private readonly ICourse _course;
 
 
+        
 
         public WebHomeController(IConfiguration configuration, IStudent student,ICourse course)
         {
@@ -34,17 +31,89 @@ namespace ScopeIndia.Controllers
             _configuration = configuration;
             _student = student;
             _course = course;
+
+        }
+
+        //private bool CheckSession()
+        //{
+        //    string Cookies = HttpContext.Request.Cookies["Cookies"];
+        //    string CookiesId = HttpContext.Request.Cookies["UserId"];
+        //    string Session = HttpContext.Session.GetString("Session");
+
+        //    if (Session != null || Cookies != null)
+        //    {
+        //        if (Session == null)
+        //        {
+        //            HttpContext.Session.SetString("Session", Cookies);
+        //            HttpContext.Session.SetString("SessionId", CookiesId);
+        //        }
+        //        ViewBag.Session = Session;
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        ViewBag.SessionOut = "Session Ends. Please login";
+        //        return false;
+        //    }
+        //}
+        //private bool CheckSession()
+        //{
+        //    string Cookies = HttpContext.Request.Cookies["Cookies"];
+        //    string CookiesId = HttpContext.Request.Cookies["UserId"];
+        //    string Session = HttpContext.Session.GetString("Session");
+
+        //    if (Session != null || Cookies != null)
+        //    {
+        //        if (Session == null)
+        //        {
+        //            HttpContext.Session.SetString("Session", Cookies);
+        //            HttpContext.Session.SetString("SessionId", CookiesId);
+        //        }
+        //        ViewBag.Session = Session;
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        ViewBag.SessionOut = "Session Ends. Please login";
+        //        return false;
+        //    }
+        //}
+        private bool CheckSession()
+        {
+            string cookieValue = Request.Cookies["UserEmail"];
+            Console.WriteLine("Cookie Value: " + cookieValue);
+            //string cookieId = HttpContext.Request.Cookies["UserId"];
+            //string sessionValue = HttpContext.Session.GetString("Session");
+
+            if (cookieValue!= null)
+            {
+
+                HttpContext.Session.SetString("UserEmail", cookieValue);
+                    //HttpContext.Session.SetString("SessionId", cookieId);
+                    ViewBag.Session = cookieValue; // session is just set now
+                
+
+                return true;
+            }
+            else
+            {
+                ViewBag.SessionOut = "Session Ends. Please login";
+                return false;
+            }
         }
         public IActionResult Home()
         {
+            CheckSession();
             return View();
         }
         public IActionResult AboutUs()
         {
+            CheckSession();
             return View();
         }
         public IActionResult Contact()
         {
+            CheckSession();
             return View();
         }
 
@@ -74,12 +143,12 @@ namespace ScopeIndia.Controllers
                 smtp.Authenticate("jijoynpnlr@gmail.com", "ljyxpmpxgzdhcisg");
                 smtp.Send(email);
                 smtp.Disconnect(true);
-                ViewBag.Email = "Email sent successfully";
+                ViewBag.contactMessageSuccess= "Email sent successfully";
                 return View();
             }
             catch (Exception ex)
             {
-                ViewBag.Email = "Error sending email: " + ex.Message;
+                ViewBag.contactMessageFail= "Error sending email: " + ex.Message;
             }
 
             return View();
@@ -87,6 +156,7 @@ namespace ScopeIndia.Controllers
 
         public IActionResult Registration()
         {
+            CheckSession();
             return View();
         }
 
@@ -239,6 +309,11 @@ namespace ScopeIndia.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult FirstTimeLogin(string email1)
         {
+            if (string.IsNullOrEmpty(email1))
+            {
+                ViewBag.ErrorMessage = "Email is required!";
+                return View();
+            }
             StudentModel st = _student.GetByEmail(email1);
             if (st == null || !_student.IsEmailExists(email1))
             {
@@ -367,57 +442,56 @@ namespace ScopeIndia.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel login)
+        
         {
             if (!ModelState.IsValid)
             {
                 return View(login);
             }
 
-
-            // Find user by email
             StudentModel student = _student.GetByEmail(login.Email);
-            List<CourseModel> students = _course.GetAll();
-            if (login.Email != student.Email || login.Password != student.Password)
-            { 
+            if (student == null || login.Password != student.Password)
+            {
                 ViewBag.LoginError = "Invalid email or password.";
                 return View();
             }
 
-            if (student != null)
+            // Set session
+            HttpContext.Session.SetInt32("UserId", student.Id);
+            HttpContext.Session.SetString("UserEmail", student.Email);
+            HttpContext.Session.SetString("UserName", student.FirstName);
+            HttpContext.Session.SetString("UserAvatar", student.Avatarpath);
+
+            Console.WriteLine("UserId: " + login.RememberMe);
+
+            // Set cookies if Remember Me is checked
+            if (login.RememberMe)
             {
-                if (login.Email == student.Email && login.Password == student.Password)
+                CookieOptions options = new CookieOptions
                 {
-                    // Store session data
-                    HttpContext.Session.SetString("UserEmail", student.Email);
-                    HttpContext.Session.SetInt32("UserId", student.Id);
-                    HttpContext.Session.SetString("UserName", student.FirstName);
-                    HttpContext.Session.SetString("UserAvatar", student.Avatarpath);
+                    Expires = DateTime.Now.AddDays(7),
+                    IsEssential = true, // Optional: allows cookie even if consent isn't given
+                    HttpOnly = true,    // Optional: makes cookie inaccessible via JavaScript
+                    Secure = true,      // Optional: use only on HTTPS
+                    SameSite = SameSiteMode.Strict // or Lax, depending on use
+                };
 
-                    if (login.RememberMe == true)
-                    {
-                        // Set a cookie
-                        CookieOptions options = new CookieOptions();
-                        options.Expires = DateTimeOffset.Now.AddDays(7);
-                        HttpContext.Response.Cookies.Append("UserId", "login", options);
-                        HttpContext.Response.Cookies.Append("UserId", student.Id.ToString());
-                    }
-                }
-                else
-                {
-                    ViewBag.LoginError = "Invalid email or password.";
-                }
+                Response.Cookies.Append("UserEmail", login.Email, options);
+                //Response.Cookies.Append("UserId", student.Id.ToString(), options); // if needed
+                //Response.Cookies.Append("UserName", student.FirstName, options);   // if needed
+
             }
-           
-                // Check if email is verified
-                //if (!student.IsVerified)
-                //{
-                //    ViewBag.LoginError = "Please verify your email before logging in.";
-                //    return View();
-                //}
 
+            // Check course selection count
+            int selectedCount = _course.GetStudentCourseCount(student.Id);
+            if (selectedCount >= 1)
+            {
+                return RedirectToAction("StudentCourseList");
+            }
 
-                return RedirectToAction("StudentDashboard", students); // Redirect to the user's dashboard
+            return RedirectToAction("StudentDashboard");
         }
+
 
         public IActionResult ForgotPassword()
         {
@@ -470,29 +544,132 @@ namespace ScopeIndia.Controllers
         }
         public IActionResult StudentDashboard()
         {
+            CheckSession();
             // Check session
             if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserEmail")))
             {
                 return RedirectToAction("Login");
             }
+
             ViewBag.UserEmail = HttpContext.Session.GetString("UserEmail");
             ViewBag.UserName = HttpContext.Session.GetString("UserName");
             ViewBag.Avatar = HttpContext.Session.GetString("UserAvatar");
-            
+
             // Fetch all courses from the database
             List<CourseModel> courses = _course.GetAll();
-
-            
-
-            // Pass courses to the view
             return View(courses);
+        }
+
+        [HttpPost]
+        public IActionResult StudentDashboard(int courseId)
+        {
+
+            int? studentId = HttpContext.Session.GetInt32("UserId");
+            var avatar = HttpContext.Session.GetString("UserAvatar");
+            var email = HttpContext.Session.GetString("UserEmail");
+            if (studentId == null)
+                {
+                    return RedirectToAction("Login");
+                }
+                StudentModel sm=new StudentModel();
+                sm.CourseId = String.Join(",", courseId.ToString());
+                _student.Update(sm);
+
+            int selectedCount = _course.GetStudentCourseCount(studentId.Value);
+                if (selectedCount >= 1)
+                {
+                    TempData["CourseCount"] = 1;
+                    TempData["Alert"] = "You already joined for a course. After completing the selected one, you can join another.";
+                    return RedirectToAction("StudentCourseList");
+                }
+
+                _course.AddCourseToStudent(studentId.Value, courseId);
+                return RedirectToAction("StudentCourseList");
+
+
+        }
+
+
+
+        public IActionResult StudentCourseList()
+        {
+            int? studentId = HttpContext.Session.GetInt32("UserId");
+            
+            if (studentId == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            ViewBag.UserEmail = HttpContext.Session.GetString("UserEmail");
+            ViewBag.UserName = HttpContext.Session.GetString("UserName");
+            ViewBag.Avatar = HttpContext.Session.GetString("UserAvatar");
+
+            ViewBag.Alert = TempData["Alert"];
+
+            List<CourseModel> selectedCourses = _course.GetSelectedCourses(studentId.Value);
+            return View(selectedCourses);
         }
         public async Task<IActionResult> Logout()
         {
             HttpContext.Session.Clear();
+
+            Response.Cookies.Delete("Cookies");
+            Response.Cookies.Delete("CookiesId");
+            Response.Cookies.Delete("UserName");
+
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
         }
+
+
+        public IActionResult EditProfile( )
+        {
+
+            /*int? studentId = HttpContext.Session.GetInt32("StudentId");
+            if (studentId == null)
+            {
+                return RedirectToAction("StudentDashboard");
+            }
+
+            var student = _student.GetById(studentId.Value);
+            if (student == null)
+            {
+                return NotFound();
+            }*/
+
+            CheckSession();
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult EditProfile(StudentModel model, IFormFile avatar)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            StudentModel existingStudent = _student.GetByEmail(HttpContext.Session.GetString("UserEmail"));
+
+            existingStudent.FirstName = model.FirstName;
+            existingStudent.LastName = model.LastName;
+            existingStudent.Email = model.Email;
+            existingStudent.PhNo = model.PhNo;
+            existingStudent.Country = model.Country;
+            existingStudent.State = model.State;
+            existingStudent.City = model.City;
+            existingStudent.DOB = model.DOB;
+            
+
+            // Save updated data
+            _student.Update(existingStudent);
+
+            TempData["Success"] = "Profile updated successfully!";
+            return RedirectToAction("StudentDashboard");
+        }
+        
+
     }
 }
 

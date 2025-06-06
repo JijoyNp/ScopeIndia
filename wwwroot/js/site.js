@@ -171,7 +171,17 @@ $(document).ready(function () {
     
 });
 
-function RegistrationSuccessMsg()
-{
-    
-}
+
+
+    function closeViewBagMessage() {
+        var alertBox = document.getElementById('viewbagAlert');
+    if (alertBox) {
+        alertBox.style.display = 'none';
+        }
+    }
+
+    // Auto-close after 7 seconds
+    setTimeout(function () {
+        closeViewBagMessage();
+    }, 7000);
+

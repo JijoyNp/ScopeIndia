@@ -17,7 +17,7 @@ namespace ScopeIndia.Data
             using (SqlConnection sqlConn = new SqlConnection(_DBConnect))
             { 
                 sqlConn.Open();
-                string insertQuery = "INSERT INTO StudentsTable(FirstName,LastName,Gender,DOB,Email,PhNo,Country,State,City,Hobbies,AvatarPath) VALUES(@FirstName,@LastName,@Gender,@DOB,@Email,@PhNo,@Country,@State,@City,@Hobbies,@Avatar)";
+                string insertQuery = "INSERT INTO StudentsTable(FirstName,LastName,Gender,DOB,Email,PhNo,Country,State,City,Hobbies,AvatarPath,Password,CourseId) VALUES(@FirstName,@LastName,@Gender,@DOB,@Email,@PhNo,@Country,@State,@City,@Hobbies,@Avatar,@Password,@CourseId)";
                 using (SqlCommand cmd = new SqlCommand(insertQuery, sqlConn))
                 {
                
@@ -32,6 +32,8 @@ namespace ScopeIndia.Data
                     cmd.Parameters.AddWithValue("@City", sm.City);
                     cmd.Parameters.AddWithValue("@Hobbies", sm.AllHobbies);
                     cmd.Parameters.AddWithValue("@Avatar", sm.Avatarpath);
+                    cmd.Parameters.AddWithValue("@Password", sm.Password ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@CourseId", sm.CourseId ?? (object)DBNull.Value);
                     cmd.ExecuteNonQuery();
                 }
                 sqlConn.Close();
@@ -44,7 +46,7 @@ namespace ScopeIndia.Data
             using (SqlConnection sqlConn = new SqlConnection(_DBConnect))
             {
                 sqlConn.Open();
-                string updateQuery = "UPDATE StudentsTable SET FirstName=@FirstName, LastName=@LastName, Gender=@Gender, DOB=@DOB, Email=@Email, PhNo=@PhNo, Country=@Country, State=@State, City=@City, Hobbies=@Hobbies, AvatarPath=@Avatar, Password=@Password WHERE Id=@Id";
+                string updateQuery = "UPDATE StudentsTable SET FirstName=@FirstName, LastName=@LastName, Gender=@Gender, DOB=@DOB, Email=@Email, PhNo=@PhNo, Country=@Country, State=@State, City=@City, Hobbies=@Hobbies, AvatarPath=@Avatar, Password=@Password , CourseId=@CourseId WHERE Id=@Id";
 
                 using (SqlCommand cmd = new SqlCommand(updateQuery, sqlConn))
                 {
@@ -52,16 +54,16 @@ namespace ScopeIndia.Data
                     cmd.Parameters.AddWithValue("@FirstName", sm.FirstName ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@LastName", sm.LastName ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Gender", sm.Gender ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@DOB", sm.DOB);
-                    cmd.Parameters.AddWithValue("@Email", sm.Email);
-                    cmd.Parameters.AddWithValue("@PhNo", sm.PhNo);
-                    cmd.Parameters.AddWithValue("@Country", sm.Country);
-                    cmd.Parameters.AddWithValue("@State", sm.State);
-                    cmd.Parameters.AddWithValue("@City", sm.City);
-                    cmd.Parameters.AddWithValue("@Hobbies", sm.AllHobbies);
-                    cmd.Parameters.AddWithValue("@Avatar", sm.Avatarpath);
+                    cmd.Parameters.AddWithValue("@DOB", sm.DOB ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Email", sm.Email ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@PhNo", sm.PhNo ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Country", sm.Country ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@State", sm.State  ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@City", sm.City ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Hobbies", sm.AllHobbies ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Avatar", sm.Avatarpath ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@Password", sm.Password ?? (object)DBNull.Value);
-
+                    cmd.Parameters.AddWithValue("@CourseId", sm.CourseId ?? (object)DBNull.Value);  
 
                     cmd.ExecuteNonQuery();
                 }
@@ -97,7 +99,7 @@ namespace ScopeIndia.Data
                             student.AllHobbies = reader.IsDBNull(10) ? null : reader.GetString(10);
                             student.Avatarpath = reader.IsDBNull(11) ? null : reader.GetString(11);
                             student.Password= reader.IsDBNull(12) ? null : reader.GetString(12);
-                            student.CourseId= reader.IsDBNull(13) ? null : reader.GetInt32(13);
+                            student.CourseId= reader.IsDBNull(13) ? null : reader.GetString(13);
                         }
 
                     }
@@ -136,7 +138,7 @@ namespace ScopeIndia.Data
                             student.AllHobbies = reader.IsDBNull(10) ? null : reader.GetString(10);
                             student.Avatarpath = reader.IsDBNull(11) ? null : reader.GetString(11);
                             student.Password = reader.IsDBNull(12) ? null : reader.GetString(12);
-                            student.CourseId = reader.IsDBNull(13) ? null : reader.GetInt32(13);
+                            student.CourseId = reader.IsDBNull(13) ? null : reader.GetString(13);
 
                         }
                     }
@@ -174,7 +176,7 @@ namespace ScopeIndia.Data
                                 AllHobbies = reader.IsDBNull(10) ? null : reader.GetString(10),
                                 Avatarpath = reader.IsDBNull(11) ? null : reader.GetString(11),
                                 Password = reader.IsDBNull(12) ? null : reader.GetString(12),
-                                CourseId = reader.IsDBNull(13) ? null : reader.GetInt32(13),
+                                CourseId = reader.IsDBNull(13) ? null : reader.GetString(13),
 
 
 
