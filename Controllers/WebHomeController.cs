@@ -81,6 +81,7 @@ namespace ScopeIndia.Controllers
         private bool CheckSession()
         {
             string cookieValue = Request.Cookies["UserEmail"];
+            string avatarCookie =Request.Cookies["UserAvatar"];
             Console.WriteLine("Cookie Value: " + cookieValue);
             //string cookieId = HttpContext.Request.Cookies["UserId"];
             //string sessionValue = HttpContext.Session.GetString("Session");
@@ -103,17 +104,15 @@ namespace ScopeIndia.Controllers
         }
         public IActionResult Home()
         {
-            CheckSession();
+        
             return View();
         }
         public IActionResult AboutUs()
         {
-            CheckSession();
             return View();
         }
         public IActionResult Contact()
         {
-            CheckSession();
             return View();
         }
 
@@ -156,7 +155,6 @@ namespace ScopeIndia.Controllers
 
         public IActionResult Registration()
         {
-            CheckSession();
             return View();
         }
 
@@ -449,6 +447,7 @@ namespace ScopeIndia.Controllers
                 return View(login);
             }
 
+
             StudentModel student = _student.GetByEmail(login.Email);
             if (student == null || login.Password != student.Password)
             {
@@ -493,7 +492,8 @@ namespace ScopeIndia.Controllers
         }
 
 
-        public IActionResult ForgotPassword()
+        public IActionResult ForgotPassword(
+            )
         {
 
             return View();
@@ -551,10 +551,9 @@ namespace ScopeIndia.Controllers
                 return RedirectToAction("Login");
             }
 
-            ViewBag.UserEmail = HttpContext.Session.GetString("UserEmail");
-            ViewBag.UserName = HttpContext.Session.GetString("UserName");
-            ViewBag.Avatar = HttpContext.Session.GetString("UserAvatar");
-
+            
+            ;
+            ViewBag.Avatar= HttpContext.Session.GetString("UserAvatar");
             // Fetch all courses from the database
             List<CourseModel> courses = _course.GetAll();
             return View(courses);
@@ -571,8 +570,9 @@ namespace ScopeIndia.Controllers
                 {
                     return RedirectToAction("Login");
                 }
-                StudentModel sm=new StudentModel();
-                sm.CourseId = String.Join(",", courseId.ToString());
+                
+                StudentModel sm = _student.GetByEmail(email);
+                sm.CourseId=courseId.ToString();
                 _student.Update(sm);
 
             int selectedCount = _course.GetStudentCourseCount(studentId.Value);
@@ -636,6 +636,15 @@ namespace ScopeIndia.Controllers
             {
                 return NotFound();
             }*/
+            string email = HttpContext.Session.GetString("UserEmail");
+
+            if (string.IsNullOrEmpty(email))
+            {
+                // Session expired or user not logged in
+                TempData["Error"] = "Session expired. Please log in again.";
+                return RedirectToAction("Login", "WebHome");
+            }
+
             StudentModel existingStudent = _student.GetByEmail(HttpContext.Session.GetString("UserEmail"));
 
             ViewBag.FirstName = existingStudent.FirstName;
@@ -649,16 +658,27 @@ namespace ScopeIndia.Controllers
             ViewBag.Avatar = existingStudent.Avatarpath;
             ViewBag.Gender= existingStudent.Gender;
 
+            // Prepare ViewBag.Hobbies as an array
+            ViewBag.Hobbies = existingStudent.AllHobbies?.Split(',') ?? new string[0];
+
+            // Identify standard and custom hobbies
+            string[] knownHobbies = new[] { "Sports", "Reading Books", "Watching Movies", "Traveling", "Listening to Music" };
+
+            string[] allHobbies = existingStudent.AllHobbies?.Split(',') ?? new string[0];
+            string otherHobby = allHobbies.FirstOrDefault(h => !knownHobbies.Contains(h)) ?? "";
+
+            // Send it to ViewBag
+            ViewBag.OtherHobbies = otherHobby;
             CheckSession();
 
-            return View();
+            return View(existingStudent);
         }
 
         [HttpPost]
         public IActionResult EditProfile(StudentModel model, IFormFile avatar)
         {
-            
 
+            
             StudentModel existingStudent = _student.GetByEmail(HttpContext.Session.GetString("UserEmail"));
             
 
@@ -670,10 +690,35 @@ namespace ScopeIndia.Controllers
             existingStudent.State = model.State;
             existingStudent.City = model.City;
             existingStudent.DOB = model.DOB;
-            
 
+            List<string> selectedHobbies = model.Hobbies?.ToList() ?? new List<string>();
+            if (!string.IsNullOrWhiteSpace(model.AllHobbies))
+            {
+                selectedHobbies.Add(model.AllHobbies.Trim());
+            }
+            existingStudent.AllHobbies = string.Join(",", selectedHobbies);
+
+            if (avatar != null && avatar.Length > 0)
+            {
+                var fileName = Path.GetFileName(avatar.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    avatar.CopyTo(stream);
+                }
+                existingStudent.Avatarpath = "/uploads/" + fileName;
+            }
             // Save updated data
             _student.Update(existingStudent);
+            var student = _student.GetByEmail(HttpContext.Session.GetString("UserEmail"));
+
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            // Ensure Hobbies is not null (optional safety)
+            student.Hobbies = student.Hobbies ?? new string[0];
 
             TempData["Success"] = "Profile updated successfully!";
             return RedirectToAction("StudentDashboard");

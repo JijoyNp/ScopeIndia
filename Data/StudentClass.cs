@@ -112,6 +112,8 @@ namespace ScopeIndia.Data
 
         public StudentModel GetByEmail(string Email)
         {
+            if (string.IsNullOrEmpty(Email))
+                throw new ArgumentNullException(nameof(Email), "Email parameter is null or empty.");
             StudentModel student = new StudentModel();
 
             using (SqlConnection conn = new SqlConnection(_DBConnect))

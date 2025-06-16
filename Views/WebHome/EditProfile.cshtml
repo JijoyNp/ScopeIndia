@@ -3,128 +3,168 @@
 @{
     ViewData["Title"] = "Edit Student";
 }
+@{
+    var imgPath = "/uploads/" + ViewBag.Avatar;
+}
 
-
-
-<h2 class="text-warning text-center pt-4">Profile update</h2>
-
-<form asp-action="EditProfile" asp-controller="WebHome" method="post" enctype="multipart/form-data">
-    <input type="hidden" asp-for="Id" />
-
-    <div style="position:relative; left:34%; width:500px;" >   
-        <div class="mb-3">
-            <label asp-for="FirstName" class="form-label">First Name</label>
-            <input asp-for="FirstName" class="form-control" value="@ViewBag.FirstName"/>
-        </div>
-        <div class="mb-3">
-            <label asp-for="LastName" class="form-label">Last Name</label>
-            <input asp-for="LastName" class="form-control" value="@ViewBag.LastName"/>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="Gender" class="fw-bold">Gender</label>
-            <div class="form-check form-check-inline">
-                <input type="text" value="@ViewBag.Gender" id="GenderSelector" hidden/>
-                <input type="radio" asp-for="Gender" id="Male" value="@ViewBag.Gender" class="form-check-input" disabled>
-            <label asp-for="Gender" class="form-check-label">Male</label>
-        </div>
-        <div class="form-check form-check-inline">
-                <input type="radio" asp-for="Gender" id="Female" value="@ViewBag.Gender" class="form-check-input" disabled>
-            <label asp-for="Gender" class="form-check-label">Female</label>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <div class="form-floating">
-
-                    <input asp-for="DOB" class="form-control" id="DOB" type="date" value="@(((DateTime)ViewBag.DOB).ToString("yyyy-MM-dd"))" readonly />
-                <label asp-for="DOB">Date of Birth</label>
-            </div>
-        </div>
-        <div class="col-md-6 mb-3">
-            <div class="form-floating">
-                <input asp-for="Email" class="form-control" id="Email" placeholder="Email"  value="@ViewBag.Email" readonly/>
-                <label asp-for="Email">E-mail</label>
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <div class="form-floating">
-            <input asp-for="PhNo" class="form-control" id="PhNo" placeholder="Phone Number" value="@ViewBag.PhNo"/>
-            <label asp-for="PhNo">Phone Number</label>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4 mb-3">
-            <label asp-for="Country" class="fw-bold">Country:</label>
-            <select asp-for="Country" id="Country" class="form-select" name="Country">
-            </select>
-        </div>
-        <div class="col-md-4 mb-3">
-            <label asp-for="State" class="fw-bold">State:</label>
-            <select asp-for="State" id="State" class="form-select" name="State"></select>
-       
-        </div>
-        <div class="col-md-4 mb-3">
-            <label asp-for="City" class="fw-bold">City:</label>
-            <select asp-for="City" id="City" class="form-select" name="City"></select>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Hobbies" class="fw-bold">Hobbies:</label>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-check">
-                    <input type="checkbox" name="Hobbies" id="sports" value="Sports" class="form-check-input">
-                    <label for="sports" class="form-check-label">Sports</label>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" name="Hobbies" id="books" value="Reading Books" class="form-check-input">
-                    <label for="books" class="form-check-label">Reading Books</label>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" name="Hobbies" id="movies" value="Watching Movies" class="form-check-input">
-                    <label for="movies" class="form-check-label">Watching Movies</label>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-check">
-                    <input type="checkbox" name="Hobbies" id="Travel" value="Traveling" class="form-check-input">
-                    <label for="Travel" class="form-check-label">Traveling</label>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" name="Hobbies" id="music" value="Listening to Music" class="form-check-input">
-                    <label for="music" class="form-check-label">Listening to Music</label>
-                </div>
-                <div class="form-floating">
-                    <textarea asp-for="Hobbies" name="Hobbies" id="OtherHobbies" class="form-control" placeholder="Specify others"></textarea>
-                    <label for="OtherHobbies">Specify others</label>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Avatar" class="fw-bold">Upload Avatar:</label>
-        <input type="file" asp-for="Avatar" name="avatar" class="form-control" />
-    </div>
+<img src="/Images/slider_bg.jpg" style="position:absolute;" height="955px" width="100%">
+@{
+    // Convert hobbies to JSON array for JS use
+    var hobbiesJson = Json.Serialize(Model.Hobbies?? new string[0]);
+}
     
 
-    <div class="d-grid">
-        <button class="btn btn-success btn-lg" type="submit">Update</button>
+<body>
+    <div>
+    <form asp-action="EditProfile" asp-controller="WebHome" method="post" enctype="multipart/form-data" style="z-index:1; border:dashed">
+        <input type="hidden" asp-for="Id" />
+
+        <h2 class="smallSize text-warning text-center pt-4 " style="position:absolute; top:50px; left:33%; z-index:2;">Edit Profile</h2>
+
+        <div style="z-index:1; position:absolute; top:130px; left:33%;" class="smallSize">
+
+            <div width="500px;" class="bg-light p-4 rounded shadow">
+                <div class="mb-3">
+                        <label asp-for="FirstName" class="form-label fw-bold">First Name</label>
+                    <input asp-for="FirstName" class="form-control" value="@ViewBag.FirstName" />
+                </div>
+                <div class="mb-3">
+                        <label asp-for="LastName" class="form-label fw-bold">Last Name</label>
+                    <input asp-for="LastName" class="form-control" value="@ViewBag.LastName" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Gender" class="fw-bold">Gender</label>
+                    <div class="form-check form-check-inline">
+                        <input type="text" value="@ViewBag.Gender" id="GenderSelector" hidden />
+                        <input type="radio" asp-for="Gender" id="Male" value="@ViewBag.Gender" class="form-check-input" disabled>
+                        <label asp-for="Gender" class="form-check-label">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" asp-for="Gender" id="Female" value="@ViewBag.Gender" class="form-check-input" disabled>
+                        <label asp-for="Gender" class="form-check-label">Female</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-floating">
+
+                            <input asp-for="DOB" class="form-control" id="DOB" type="date" value="@(((DateTime)ViewBag.DOB).ToString("yyyy-MM-dd"))" readonly />
+                            <label asp-for="DOB">Date of Birth</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-floating">
+                            <input asp-for="Email" class="form-control" id="Email" placeholder="Email" value="@ViewBag.Email" readonly />
+                            <label asp-for="Email">E-mail</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="form-floating">
+                        <input asp-for="PhNo" class="form-control" id="PhNo" placeholder="Phone Number" value="@ViewBag.PhNo" />
+                        <label asp-for="PhNo">Phone Number</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="Country" class="fw-bold">Country:</label>
+                        <select asp-for="Country" id="Country" class="form-select" name="Country">
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="State" class="fw-bold">State:</label>
+                        <select asp-for="State" id="State" class="form-select" name="State"></select>
+
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label asp-for="City" class="fw-bold">City:</label>
+                        <select asp-for="City" id="City" class="form-select" name="City"></select>
+                    </div>
+                </div>
+
+                    <div class="mb-3" id="hobbiesContainer">
+                        <label asp-for="Hobbies" class="fw-bold">Hobbies:</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input type="checkbox" name="Hobbies" class="form-check-input" value="Sports" @(Array.IndexOf(ViewBag.Hobbies, "Sports") >= 0 ? "checked" : "") />
+                                    <label for="sports" class="form-check-label">Sports</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="Hobbies" class="form-check-input" value="Reading Books" @(Array.IndexOf(ViewBag.Hobbies, "Reading Books") >= 0 ? "checked" : "") />
+                                    <label for="books" class="form-check-label">Reading Books</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="Hobbies" class="form-check-input" value="Watching Movies" @(Array.IndexOf(ViewBag.Hobbies, "Watching Movies") >= 0 ? "checked" : "") />
+                                    <label for="movies" class="form-check-label">Watching Movies</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input type="checkbox" name="Hobbies" class="form-check-input" value="Traveling" @(Array.IndexOf(ViewBag.Hobbies, "Traveling") >= 0 ? "checked" : "") />
+                                    <label for="Travel" class="form-check-label">Traveling</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" name="Hobbies" class="form-check-input" value="Listening to Music" @(Array.IndexOf(ViewBag.Hobbies, "Sports") >= 0 ? "checked" : "") />
+                                    <label for="music" class="form-check-label">Listening to Music</label>
+                                </div>
+                                <div class="form-floating">
+                                    <textarea asp-for="OtherHobbies" name="OtherHobbies" id="OtherHobbies" class="form-control" placeholder="Specify others"></textarea>
+                                    <label for="OtherHobbies">Specify others</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="mb-3">
+                    <label asp-for="Avatar" class="fw-bold">Upload Avatar:</label>
+                    <img id="preview" src="@imgPath" alt="Preview" width="150">
+                    <input type="file" asp-for="Avatar" name="avatar" class="form-control" id="avatarInput" accept="image/*" />
+                </div>
+
+
+                <div class="d-grid">
+                    <button class="btn btn-success btn-lg" type="submit">Update</button>
+                </div>
+            </div>
+        </div>
+    </form>
     </div>
-  </div>
-</form>
+    <footer>
+        <div>
+            <div>
+                <img src="~/Images/snowpark-footer-logo.png" class="img1" />
+                <p>Technopark TVM | Thampanoor TVM | Kochi, Kerala | Nagercoil Tamil Nadu</p>
+            </div>
+            <div>
+                <img src="~/Images/iso_iaflogo.png" class="img2" />
+                <p>An ISO 9001:2015 Certified Company</p>
+                <p>All Rights Suffix E Solutions &copy; 2007-2025</p>
+            </div>
+            <div>
+                <span>9745936073(TPK)</span>
+                <span>7592939481(EKM)</span>
+                <span>8075536185(NGL)</span>
+                <span>info@scopeindia.org</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
 
 @section Scripts
 {
     @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
 
     <script>
+
+        $(document).ready(function(){
+            })
+
         var genderValue = "@ViewBag.Gender";
         if (genderValue.toLowerCase() === 'male') {
             document.getElementById("Male").checked = true;
@@ -242,6 +282,31 @@
             });
         });
 
+        $(document).ready(function () {
+        // Get selected hobbies from server (JSON array like ["Reading Books", "Traveling"])
+        var selectedHobbies = @Html.Raw(Json.Serialize(Model.Hobbies ?? new string[0]));
 
+        // Loop through all checkboxes and check if value exists
+        $('#hobbiesContainer input[type="checkbox"]').each(function () {
+            var checkboxValue = $(this).val();
+            if (selectedHobbies.includes(checkboxValue)) {
+                $(this).prop('checked', true);
+            }
+        });
+
+        // Set value to textarea (automatically set by Razor as well, but safe fallback)
+        $('#OtherHobbies').val('@Model.OtherHobbies');
+    });
+
+                document.getElementById("avatarInput").addEventListener("change", function(event) {
+            const preview = document.getElementById("preview");
+            const file = event.target.files[0];
+
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+            } else {
+                preview.src = "/images/default-avatar.png"; // fallback to default
+            }
+        });
     </script>
 }

@@ -228,5 +228,13 @@ div.multi-carousel-container {
     .carousel-item-multi {
         flex: 0 0 100%;
     }
+
+    .smallSize {
+        position:absolute;
+        top:70px;
+        left:17%;
+        height:100px;
+        width:400px;
+    }
 }
 

@@ -49,6 +49,7 @@ namespace ScopeIndia.Models
 
         public string? AllHobbies { get; set; }
 
+        public string? OtherHobbies { get; set; }
         public IFormFile Avatar { get; set; }
 
         public string? Avatarpath {  get; set; }
@@ -59,6 +60,6 @@ namespace ScopeIndia.Models
 
         public bool? IsVerified { get; set; }
     
-
+        
     }
 }
